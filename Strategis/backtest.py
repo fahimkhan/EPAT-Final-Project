@@ -23,8 +23,6 @@ class FinancialData(object):
 		self.data[cols].plot(figsize=(10, 6))
 		plt.show()
 
-
-
 class BacktestBase(FinancialData):
 	# def __init__(self,symbol,start,end,amount,ftc=0.0,ptc=0.0):
 	def __init__(self,symbol,amount,ftc=0.0,ptc=0.0):	
@@ -79,9 +77,6 @@ class BacktestBase(FinancialData):
 		perf = (self.amount-self.initial_amount)/self.initial_amount *100
 		print("Performace [%%]:%8.2f"%perf)
 		print("#Trades :%d"%self.trades)
-
-
-
 
 # objFinancialData = FinancialData("SBIN")
 # objFinancialData.plot_data()
