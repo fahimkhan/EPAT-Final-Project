@@ -7,7 +7,8 @@ plt.style.use('seaborn')
 
 
 
-data_location = "../Data"
+
+data_location = "../Data/IntraDay"
 
 class FinancialData(object):
 	"""docstring for FinancialData"""
@@ -27,56 +28,136 @@ class BacktestBase(FinancialData):
 	# def __init__(self,symbol,start,end,amount,ftc=0.0,ptc=0.0):
 	def __init__(self,symbol,amount,ftc=0.0,ptc=0.0):	
 		FinancialData.__init__(self,symbol)
+		### Use date if you want to backtest on range of date
 		# self.start = start
 		# self.end = end
-		self.amount = amount
-		self.initial_amount = amount
 		self.ftc = ftc
 		self.ptc = ptc
+		self.amount = amount
+		self.initial_amount = amount
 		self.units = 0
 		self.trades = 0
 		self.position = 0
 
 	def print_balance(self,date=''):
+		"""
+		Printing Current Balance
+		"""
 		pass
 		#print("%s |Current balance is %9.2f " %(date,self.amount))
 
+	def get_trade_price(self,bar,units):
+		date,price = self.get_date_price(bar)
+		buy_amount = units*price
+		txn_cost = self.get_txn_cost(buy_amount)
+		trade_price =  buy_amount+txn_cost
+		return trade_price
+
 	def get_date_price(self,bar):
+		"""
+		Get date and price for current index data
+		"""
 		date = str(self.data_run.index[bar])[:10]
 		price = self.data_run['Close'].ix[bar]
 		return date,price
 
-	def place_buy_order(self,bar,units=None,amount=None):
-		date,price = self.get_date_price(bar)
-		if units is None:
-			units = math.floor(amount/price) #include ftc and ptc
+	def get_txn_cost(self,amount):
+		"""
+		Calculate Txn Cost
+		"""
+		rate = 0.0001
+		txn_cost = rate*amount
+		if txn_cost > 20:
+			txn_cost = 20
+		return txn_cost
 
-		self.amount -= (units*price)*(1+self.ptc)+self.ftc
+	def get_trade_units(self,amount,price):
+		"""
+		Get Unit for trading based on amount available
+		"""
+		units = math.floor(amount/price)
+		return units
+
+	def place_buy_order(self,bar,units=None,amount=None):
+		"""
+		Placing buy order
+		"""
+		
+		date,price = self.get_date_price(bar)  ##Current date and price of share
+		amount = amount - self.get_txn_cost(amount) ##Make sure transaction amount is there for trading 
+
+		##Getting  units
+		if units is None:
+			units = self.get_trade_units(amount,price) 
+
+		
+		buy_amount = units*price
+		txn_cost = self.get_txn_cost(buy_amount)
+		self.amount = self.amount - buy_amount - txn_cost
 		self.units += units
 		self.trades += 1
+		
+		print "##########Buying#######################"
+		print "Buying Price################",str(price)
+		print "Transaction Cost#############",str(txn_cost)
+		print "Units Purchsed############",str(units)
+		print "Amount to deducted########",str(buy_amount-txn_cost)
+		print "Balance############",str(self.amount)
+		
 		#print("%s |Buying  %4d  units  at  %8.2f "%(date,units,price))
-		self.print_balance(date)
+		#self.print_balance(date)
 
 	def place_sell_order(self,bar,units=None,amount=None):
+		"""
+		Placing Sell Order
+		"""
+		
 		date,price = self.get_date_price(bar)
 		if units is None:
-			units = math.floor(amount/price) #include ftc and ptc
+			units = math.floor(amount/price) 
 
-		self.amount += (units*price)*(1-self.ptc)-self.ftc
+		
+		sell_amount = units*price
+		txn_cost = self.get_txn_cost(sell_amount)
+		self.amount = self.amount + sell_amount - txn_cost
 		self.units -= units
 		self.trades += 1
 		#print("%s |Selling  %4d  units  at  %8.2f "%(date,units,price))
+		print "##########Selling#######################"
+		print "Selling Price################",str(price)
+		print "Units Sold############",str(units)
+		print "Transaction Cost#############",str(txn_cost)
+		print "Amount to added########",str(sell_amount-txn_cost)
+		print "Balance############",str(self.amount)
 		self.print_balance(date)
 
-	def close_out(self,bar):
-		date,price = self.get_date_price(bar)
-		self.amount += (self.units*price) #Include ftc and ptc ?
-		#print(50 * '=')
-		#print ("%s |buying/selling %d units at %7.2f"%(date,self.units,price))
-		print("Final balance [$]: %8.2f"%self.amount)
-		perf = (self.amount-self.initial_amount)/self.initial_amount *100
-		print("Performace [%%]:%8.2f"%perf)
-		print("#Trades :%d"%self.trades)
+	def trade_stats(self,bar,final_dataframe):
+		"""
+		Final status after backtesting like final balance,performance,sharpe ratio,max drawdawn etc
+		"""
+		pnl_data = final_dataframe['PnL'].cumsum()
+		print "#############Start##############"
+		print "Symbol :",self.symbol
+		print "#Trades : %d"%self.trades
+		print "PnL : ",final_dataframe['PnL'].sum()
+
+		sharpe_ratio = np.sqrt(252) * (np.mean(final_dataframe['PnL'])) / np.std(final_dataframe['PnL'])
+ 		print "Sharpe Ratio", "%0.2f" % sharpe_ratio
+
+
+		###Maximum Drawdawn
+		#pnl_data.plot(figsize=(10, 6))
+		#plt.show()
+
+		# date,price = self.get_date_price(bar)
+		# self.amount += (self.units*price) 
+		# #print(50 * '=')
+		# #print ("%s |buying/selling %d units at %7.2f"%(date,self.units,price))
+		# print("Final balance [$]: %8.2f"%self.amount)
+		# perf = (self.amount-self.initial_amount)/self.initial_amount *100
+		# print("Performace [%%]:%8.2f"%perf)
+		# print("#Trades :%d"%self.trades)
+		print "##############End#################"
 
 # objFinancialData = FinancialData("SBIN")
 # objFinancialData.plot_data()
