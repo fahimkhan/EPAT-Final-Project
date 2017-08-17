@@ -11,12 +11,23 @@ with open("SecurityList") as f:
 	
 
 
-tickerList = [x.strip("\n") for x in tickers]
+tickerList = [x.strip() for x in tickers]
 tickerList = filter(bool, tickerList)
 
-
+print tickerList
 for ticker in tickerList:
-	dataframe = get_history(symbol=ticker,start=date(2005,1,1),end=date(2017,1,1),index=True)
-	dataframe.to_csv(os.path.join(location,ticker)+"-EQ.csv",sep=",")
+	print ticker
+	if ticker=="NIFTY":
+		data = get_history(symbol=ticker,start=date(2000,1,1),end=date(2017,7,31),index=True)
+	else:
+		data = get_history(symbol=ticker,start=date(2000,1,1),end=date(2017,7,31))
+
+	print data.head()
+	data.to_csv(os.path.join(location,ticker)+"-EQ.csv",sep=",")
+
+
+
+
+	time.sleep(20)
 	
 
