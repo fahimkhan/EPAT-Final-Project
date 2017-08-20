@@ -8,26 +8,30 @@ plt.style.use('seaborn')
 
 
 
-data_location = "../Data/IntraDay"
+data_location = "../Data/IntraDay/"
 
 class FinancialData(object):
 	"""docstring for FinancialData"""
-	def __init__(self, symbol):
-		self.symbol = symbol
+	def __init__(self, ticker):
+		self.ticker = ticker
 		self.get_data()
 
 	def get_data(self):
 		#skip additional row with unwanted header name
-		self.data = pd.read_csv("../Data/"+self.symbol+"-EQ.csv",index_col='Date',names=['Date','Open','High','Low','Close','Volume'],skiprows=1) 
-	
+		self.data = pd.read_csv(data_location+self.ticker+"-EQ.csv",index_col='Date',names=['Date','Open','High','Low','Close','Volume'],skiprows=1) 
+		#self.data = pd.read_csv(data_location+self.ticker+"-EQ.csv",index_col='Date',names=['Date','Symbol','Series',
+		#	'Prev Close','Open','High','Low','Last','Close','VWAP','Volume','Turnover','Trades','Deliverable Volume','%Deliverble'],skiprows=1) 
+		self.data =  self.data.iloc[::-1]   ###Reverseas data is in descending order
+
+
 	def plot_data(self, cols=['Close']):
 		self.data[cols].plot(figsize=(10, 6))
 		plt.show()
 
 class BacktestBase(FinancialData):
-	# def __init__(self,symbol,start,end,amount,ftc=0.0,ptc=0.0):
-	def __init__(self,symbol,amount,ftc=0.0,ptc=0.0):	
-		FinancialData.__init__(self,symbol)
+	# def __init__(self,ticker,start,end,amount,ftc=0.0,ptc=0.0):
+	def __init__(self,ticker,amount,ftc=0.0,ptc=0.0):	
+		FinancialData.__init__(self,ticker)
 		### Use date if you want to backtest on range of date
 		# self.start = start
 		# self.end = end
@@ -97,12 +101,12 @@ class BacktestBase(FinancialData):
 		self.units += units
 		self.trades += 1
 		
-		print "##########Buying#######################"
-		print "Buying Price################",str(price)
-		print "Transaction Cost#############",str(txn_cost)
-		print "Units Purchsed############",str(units)
-		print "Amount to deducted########",str(buy_amount-txn_cost)
-		print "Balance############",str(self.amount)
+		# print "##########Buying#######################"
+		# print "Buying Price################",str(price)
+		# print "Transaction Cost#############",str(txn_cost)
+		# print "Units Purchsed############",str(units)
+		# print "Amount to deducted########",str(buy_amount-txn_cost)
+		# print "Balance############",str(self.amount)
 		
 		#print("%s |Buying  %4d  units  at  %8.2f "%(date,units,price))
 		#self.print_balance(date)
@@ -123,12 +127,12 @@ class BacktestBase(FinancialData):
 		self.units -= units
 		self.trades += 1
 		#print("%s |Selling  %4d  units  at  %8.2f "%(date,units,price))
-		print "##########Selling#######################"
-		print "Selling Price################",str(price)
-		print "Units Sold############",str(units)
-		print "Transaction Cost#############",str(txn_cost)
-		print "Amount to added########",str(sell_amount-txn_cost)
-		print "Balance############",str(self.amount)
+		# print "##########Selling#######################"
+		# print "Selling Price################",str(price)
+		# print "Units Sold############",str(units)
+		# print "Transaction Cost#############",str(txn_cost)
+		# print "Amount to added########",str(sell_amount-txn_cost)
+		# print "Balance############",str(self.amount)
 		self.print_balance(date)
 
 	def trade_stats(self,bar,final_dataframe):
@@ -136,27 +140,23 @@ class BacktestBase(FinancialData):
 		Final status after backtesting like final balance,performance,sharpe ratio,max drawdawn etc
 		"""
 		pnl_data = final_dataframe['PnL'].cumsum()
-		print "#############Start##############"
-		print "Symbol :",self.symbol
-		print "#Trades : %d"%self.trades
-		print "PnL : ",final_dataframe['PnL'].sum()
-
 		sharpe_ratio = np.sqrt(252) * (np.mean(final_dataframe['PnL'])) / np.std(final_dataframe['PnL'])
- 		print "Sharpe Ratio", "%0.2f" % sharpe_ratio
+		performance = (self.amount-self.initial_amount)/self.initial_amount *100
 
+
+		print "#############Start##############"
+		print "Ticker :",self.ticker
+		print "Initial Amount Invested : ",self.initial_amount
+		print "Final Balance :",self.amount
+		print "#Trades : %d"%self.trades
+		print "Performance : ",performance
+		print "PnL : ",final_dataframe['PnL'].sum()
+ 		print "Sharpe Ratio", "%0.2f" % sharpe_ratio
+ 		
 
 		###Maximum Drawdawn
 		#pnl_data.plot(figsize=(10, 6))
 		#plt.show()
-
-		# date,price = self.get_date_price(bar)
-		# self.amount += (self.units*price) 
-		# #print(50 * '=')
-		# #print ("%s |buying/selling %d units at %7.2f"%(date,self.units,price))
-		# print("Final balance [$]: %8.2f"%self.amount)
-		# perf = (self.amount-self.initial_amount)/self.initial_amount *100
-		# print("Performace [%%]:%8.2f"%perf)
-		# print("#Trades :%d"%self.trades)
 		print "##############End#################"
 
 # objFinancialData = FinancialData("SBIN")
