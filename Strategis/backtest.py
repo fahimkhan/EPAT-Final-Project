@@ -21,7 +21,11 @@ class FinancialData(object):
 		self.data = pd.read_csv(data_location+self.ticker+"-EQ.csv",index_col='Date',names=['Date','Open','High','Low','Close','Volume'],skiprows=1) 
 		#self.data = pd.read_csv(data_location+self.ticker+"-EQ.csv",index_col='Date',names=['Date','Symbol','Series',
 		#	'Prev Close','Open','High','Low','Last','Close','VWAP','Volume','Turnover','Trades','Deliverable Volume','%Deliverble'],skiprows=1) 
-		self.data =  self.data.iloc[::-1]   ###Reverseas data is in descending order
+		
+		#Reverseas data to get it in ascending order
+		self.data =  self.data.iloc[::-1]   
+
+		
 
 
 	def plot_data(self, cols=['Close']):

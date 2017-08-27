@@ -1,17 +1,20 @@
 import pandas as pd
 import numpy as np
+import pickle
 
 from backtest import BacktestBase
 
 train_test_split_ratio  = 0.5
 
 class MovingAverageStrategy(BacktestBase):
-	def run(self,SMA1,SMA2):
+	def run(self,SMA1,SMA2,model_path):
 		msg = 'Running SMA strategy for %s |SMA1 =%d |SMA2 = %d |ftc = %f|ptc = %f'
 		msg = msg%(self.ticker,SMA1,SMA2,self.ftc,self.ptc)
 		self.position = 0
 		self.amount = self.initial_amount
 		self.trades = 0
+
+		hmm_model = pickle.load(open(model_path, "rb"))
 
 
 		#Data Preparation
@@ -94,8 +97,9 @@ if __name__ == "__main__":
 	initial_investement_amount = 10000
 
 	for ticker in tickerList:
+		model_path = "../Models/hmm_model_"+ticker+".pkl"
 		sma = MovingAverageStrategy(ticker,initial_investement_amount)
-		sma.run(50,250)
+		sma.run(50,250,model_path)
 
 
 
