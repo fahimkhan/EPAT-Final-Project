@@ -8,6 +8,9 @@ train_test_split_ratio  = 0.5
 
 class MovingAverageStrategy(BacktestBase):
 	def run(self,SMA1,SMA2,model_path):
+		daily_returns = []
+
+
 		msg = 'Running SMA strategy for %s |SMA1 =%d |SMA2 = %d |ftc = %f|ptc = %f'
 		msg = msg%(self.ticker,SMA1,SMA2,self.ftc,self.ptc)
 		self.position = 0
@@ -45,6 +48,9 @@ class MovingAverageStrategy(BacktestBase):
 		Signals["Units"] = 0
 				
 		for bar in range(0,len(self.data_run)):
+			##Storing observable varibale.In our case it is daily returns.
+			daily_returns.append(self.data_run['Returns'].ix[bar])
+
 			if self.position == 0:
 				if self.data_run['SMA1'].ix[bar] > self.data_run['SMA2'].ix[bar]:
 					self.place_buy_order(bar,amount=self.amount) 
@@ -62,6 +68,8 @@ class MovingAverageStrategy(BacktestBase):
 					Signals["Trade"].ix[bar] = -1
 				else:
 					Signals["Trade"].ix[bar] = 0
+
+			#print "Daily Return :",len(daily_returns)
 				
 		
 		##Squaring off if holds any stock without checking any condition
