@@ -9,15 +9,13 @@ train_test_split_ratio  = 0.5
 class MovingAverageStrategy(BacktestBase):
 	def run(self,SMA1,SMA2,model_path):
 		daily_returns = []
-
-
 		msg = 'Running SMA strategy for %s |SMA1 =%d |SMA2 = %d |ftc = %f|ptc = %f'
 		msg = msg%(self.ticker,SMA1,SMA2,self.ftc,self.ptc)
 		self.position = 0
 		self.amount = self.initial_amount
 		self.trades = 0
 
-		hmm_model = pickle.load(open(model_path, "rb"))
+		self.hmm_model = pickle.load(open(model_path, "rb"))
 
 
 		#Data Preparation
@@ -51,25 +49,37 @@ class MovingAverageStrategy(BacktestBase):
 			##Storing observable varibale.In our case it is daily returns.
 			daily_returns.append(self.data_run['Returns'].ix[bar])
 
+			regime = self.regime_detection(daily_returns)
+
 			if self.position == 0:
-				if self.data_run['SMA1'].ix[bar] > self.data_run['SMA2'].ix[bar]:
-					self.place_buy_order(bar,amount=self.amount) 
-					self.position = 1 #Take Position
-					Signals["Trade"].ix[bar] = 1
-					Signals["Units"].ix[bar] = int(self.units)
+				if regime == 1:
+					pass
 				else:
-					Signals["Trade"].ix[bar] = 0
+					if self.data_run['SMA1'].ix[bar] > self.data_run['SMA2'].ix[bar]:
+						self.place_buy_order(bar,amount=self.amount) 
+						self.position = 1 #Take Position
+						Signals["Trade"].ix[bar] = 1
+						Signals["Units"].ix[bar] = int(self.units)
+					else:
+						Signals["Trade"].ix[bar] = 0
 					
 			elif self.position == 1:
-				if self.data_run['SMA1'].ix[bar] < self.data_run['SMA2'].ix[bar]:
+				if regime == 1:
+					print "Sell Without condition"
 					Signals["Units"].ix[bar] = int(self.units)
 					self.place_sell_order(bar,units=self.units)
 					self.position = 0   #Market nuetral
 					Signals["Trade"].ix[bar] = -1
 				else:
-					Signals["Trade"].ix[bar] = 0
+					if self.data_run['SMA1'].ix[bar] < self.data_run['SMA2'].ix[bar]:
+						Signals["Units"].ix[bar] = int(self.units)
+						self.place_sell_order(bar,units=self.units)
+						self.position = 0   #Market nuetral
+						Signals["Trade"].ix[bar] = -1
+					else:
+						Signals["Trade"].ix[bar] = 0
 
-			#print "Daily Return :",len(daily_returns)
+			
 				
 		
 		##Squaring off if holds any stock without checking any condition
@@ -96,6 +106,11 @@ class MovingAverageStrategy(BacktestBase):
 		self.trade_stats(bar,self.final_dataframe)
 
 
+	def regime_detection(self,daily_returns):
+		#Converting daily return list to numpy array
+		daily_returns = np.column_stack([np.array(daily_returns)])
+		hidden_state = self.hmm_model.predict(daily_returns)[-1]
+		return hidden_state
 
 
 if __name__ == "__main__":
