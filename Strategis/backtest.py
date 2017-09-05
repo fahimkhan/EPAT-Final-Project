@@ -5,7 +5,7 @@ import math
 import matplotlib.pyplot as plt
 plt.style.use('seaborn')
 
-
+from portfolio import Portfolio
 
 
 data_location = "../Data/IntraDay/"
@@ -14,6 +14,7 @@ class FinancialData(object):
 	"""docstring for FinancialData"""
 	def __init__(self, ticker):
 		self.ticker = ticker
+		self.portfolioOBJ = Portfolio()
 		self.get_data()
 
 	def get_data(self):
@@ -158,10 +159,17 @@ class BacktestBase(FinancialData):
  		print "Sharpe Ratio", "%0.2f" % sharpe_ratio
  		
 
+ 		##Add details to portfolio
+ 		port_details = [self.ticker,self.initial_amount,self.amount,self.trades,final_dataframe['PnL'].sum(),sharpe_ratio,performance]
+
+
+ 		self.portfolioOBJ.add_portfolio_details(port_details)
+
 		###Maximum Drawdawn
 		#pnl_data.plot(figsize=(10, 6))
 		#plt.show()
 		print "##############End#################"
+
 
 # objFinancialData = FinancialData("SBIN")
 # objFinancialData.plot_data()

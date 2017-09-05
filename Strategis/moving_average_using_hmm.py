@@ -1,8 +1,11 @@
+
 import pandas as pd
 import numpy as np
 import pickle
 
 from backtest import BacktestBase
+from portfolio import Portfolio
+
 
 train_test_split_ratio  = 0.5
 
@@ -105,7 +108,6 @@ class MovingAverageStrategy(BacktestBase):
 			
 		self.trade_stats(bar,self.final_dataframe)
 
-
 	def regime_detection(self,daily_returns):
 		#Converting daily return list to numpy array
 		daily_returns = np.column_stack([np.array(daily_returns)])
@@ -113,8 +115,9 @@ class MovingAverageStrategy(BacktestBase):
 		return hidden_state
 
 
+
 if __name__ == "__main__":
-	tickerList = ["HDFCBANK"]#,"ICICIBANK","KOTAKBANK","ONGC","INFY","RELIANCE","HDFC","LT","IOC","SBIN","HINDUNILVR",
+	tickerList = ["HDFCBANK","ICICIBANK"]#,"KOTAKBANK","ONGC","INFY","RELIANCE","HDFC","LT","IOC","SBIN","HINDUNILVR",
 	# "MARUTI","ITC","TCS"]
 
 	initial_investement_amount = 10000
@@ -124,6 +127,11 @@ if __name__ == "__main__":
 		sma = MovingAverageStrategy(ticker,initial_investement_amount)
 		sma.run(50,250,model_path)
 
+
+	portOBJ = Portfolio()
+	portOBJ.show_portfolio_details()
+
+	
 
 
 
