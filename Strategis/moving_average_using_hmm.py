@@ -100,12 +100,15 @@ class MovingAverageStrategy(BacktestBase):
 		
 		##PnL
 		price=0.
+				
 		for bar in range(0,len(self.final_dataframe)):
 			if self.final_dataframe['Trade'][bar] == 1:
 				price = self.get_trade_price(bar,self.final_dataframe['Units'][bar])
 			elif self.final_dataframe['Trade'][bar] == -1:
-				self.final_dataframe['PnL'].ix[bar] = self.get_trade_price(bar,self.final_dataframe['Units'][bar]) - price
-			
+				self.final_dataframe['PnL'].ix[bar] = self.get_trade_price(bar,self.final_dataframe['Units'][bar]) - price 
+	
+
+
 		self.trade_stats(bar,self.final_dataframe)
 
 	def regime_detection(self,daily_returns):
@@ -117,8 +120,8 @@ class MovingAverageStrategy(BacktestBase):
 
 
 if __name__ == "__main__":
-	tickerList = ["HDFCBANK","ICICIBANK"]#,"KOTAKBANK","ONGC","INFY","RELIANCE","HDFC","LT","IOC","SBIN","HINDUNILVR",
-	# "MARUTI","ITC","TCS"]
+	tickerList = ["HDFCBANK","ICICIBANK","KOTAKBANK","ONGC","INFY","RELIANCE","HDFC","LT","IOC","SBIN","HINDUNILVR",
+	"MARUTI","ITC","TCS"]
 
 	initial_investement_amount = 10000
 
@@ -129,7 +132,7 @@ if __name__ == "__main__":
 
 
 	portOBJ = Portfolio()
-	portOBJ.show_portfolio_details()
+	portOBJ.show_portfolio_details("port_with_hmm.pkl")
 
 	
 

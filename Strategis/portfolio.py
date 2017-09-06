@@ -1,4 +1,6 @@
 
+import numpy as np
+import pandas as pd
 
 class PortfolioHandler(type):
     instances = dict()
@@ -20,6 +22,9 @@ class Portfolio(object):
     	print "Adding Portfolio"
     	self.portfolio_details.append(port_list)
 
-    def show_portfolio_details(self):
-    	print "Show portfolio"
-    	print self.portfolio_details
+    def show_portfolio_details(self,filename):
+    	port_array = np.array(self.portfolio_details)
+        port_df = pd.DataFrame(data=port_array[1:,1:],index=port_array[1:,0],columns=port_array[0,1:])
+        port_df.to_pickle(filename)
+        print port_df
+        

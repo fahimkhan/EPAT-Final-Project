@@ -2,8 +2,10 @@ import pandas as pd
 import numpy as np
 
 from backtest import BacktestBase
+from portfolio import Portfolio
 
 train_test_split_ratio  = 0.5
+
 
 class MovingAverageStrategy(BacktestBase):
 	def run(self,SMA1,SMA2):
@@ -88,14 +90,17 @@ class MovingAverageStrategy(BacktestBase):
 
 
 if __name__ == "__main__":
-	tickerList = ["HDFCBANK"]#,"ICICIBANK","KOTAKBANK","ONGC","INFY","RELIANCE","HDFC","LT","IOC","SBIN","HINDUNILVR",
-	# "MARUTI","ITC","TCS"]
+	tickerList = ["HDFCBANK","ICICIBANK","KOTAKBANK","ONGC","INFY","RELIANCE","HDFC","LT","IOC","SBIN","HINDUNILVR",
+	"MARUTI","ITC","TCS"]
 
 	initial_investement_amount = 10000
 
 	for ticker in tickerList:
 		sma = MovingAverageStrategy(ticker,initial_investement_amount)
 		sma.run(50,250)
+
+	portOBJ = Portfolio()
+	portOBJ.show_portfolio_details("port_without_hmm.pkl")
 
 
 

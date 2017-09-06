@@ -59,7 +59,7 @@ class BacktestBase(FinancialData):
 		date,price = self.get_date_price(bar)
 		buy_amount = units*price
 		txn_cost = self.get_txn_cost(buy_amount)
-		trade_price =  buy_amount+txn_cost
+		trade_price =  buy_amount + txn_cost
 		return trade_price
 
 	def get_date_price(self,bar):
@@ -110,10 +110,10 @@ class BacktestBase(FinancialData):
 		# print "Buying Price################",str(price)
 		# print "Transaction Cost#############",str(txn_cost)
 		# print "Units Purchsed############",str(units)
-		# print "Amount to deducted########",str(buy_amount-txn_cost)
+		# print "Amount to deducted########",str(buy_amount+txn_cost)
 		# print "Balance############",str(self.amount)
 		
-		#print("%s |Buying  %4d  units  at  %8.2f "%(date,units,price))
+		# print("%s |Buying  %4d  units  at  %8.2f "%(date,units,price))
 		#self.print_balance(date)
 
 	def place_sell_order(self,bar,units=None,amount=None):
@@ -131,14 +131,14 @@ class BacktestBase(FinancialData):
 		self.amount = self.amount + sell_amount - txn_cost
 		self.units -= units
 		self.trades += 1
-		#print("%s |Selling  %4d  units  at  %8.2f "%(date,units,price))
+		# print("%s |Selling  %4d  units  at  %8.2f "%(date,units,price))
 		# print "##########Selling#######################"
 		# print "Selling Price################",str(price)
 		# print "Units Sold############",str(units)
 		# print "Transaction Cost#############",str(txn_cost)
 		# print "Amount to added########",str(sell_amount-txn_cost)
 		# print "Balance############",str(self.amount)
-		self.print_balance(date)
+		#self.print_balance(date)
 
 	def trade_stats(self,bar,final_dataframe):
 		"""
@@ -155,14 +155,12 @@ class BacktestBase(FinancialData):
 		print "Final Balance :",self.amount
 		print "#Trades : %d"%self.trades
 		print "Performance : ",performance
-		print "PnL : ",final_dataframe['PnL'].sum()
+		print "PnL : ", self.amount - self.initial_amount
  		print "Sharpe Ratio", "%0.2f" % sharpe_ratio
  		
 
  		##Add details to portfolio
- 		port_details = [self.ticker,self.initial_amount,self.amount,self.trades,final_dataframe['PnL'].sum(),sharpe_ratio,performance]
-
-
+ 		port_details = [self.ticker,self.initial_amount,self.amount,self.trades,self.amount-self.initial_amount,sharpe_ratio,performance]
  		self.portfolioOBJ.add_portfolio_details(port_details)
 
 		###Maximum Drawdawn
