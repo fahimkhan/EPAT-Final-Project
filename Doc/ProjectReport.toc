@@ -1,9 +1,5 @@
 \contentsline {chapter}{\numberline {1}Objective}{2}
-\contentsline {section}{\numberline {1.1}Objective}{2}
-\contentsline {paragraph}{Your paragraph title here}{2}
-\contentsline {chapter}{\numberline {2}What is HMM ?}{3}
-\contentsline {section}{\numberline {2.1}HMM details}{3}
-\contentsline {paragraph}{HMM Details}{3}
+\contentsline {chapter}{\numberline {2}What is Hidden Markov Model?}{3}
 \contentsline {chapter}{\numberline {3}About used data}{4}
-\contentsline {section}{\numberline {3.1}Data Details}{4}
-\contentsline {paragraph}{Data Details}{4}
+\contentsline {section}{\numberline {3.1}About Data section}{4}
+\contentsline {paragraph}{About Data Paragraph}{4}
