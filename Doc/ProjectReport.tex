@@ -1,5 +1,6 @@
 \documentclass{report}
 \usepackage{fullpage}
+\usepackage{tabu}
 \renewcommand{\baselinestretch}{2}
 \setlength{\parindent}{4em}
 \setlength{\parskip}{1em}
@@ -30,6 +31,31 @@ This project is an attempt to find out such market regime and accordingly adjust
 
 
 \chapter{What is Hidden Markov Model?}
+Before knowing about Hidden Markov Model, it important to understand Markov Model. The Markov Model is a stochastic state space model involves random transitions between states where the probability of the jump is only dependent upon the current state, rather than any of the previous states. The model is said to possess the Markov Property and is thus "memoryless".
+
+Markov Models can be categorised into four broad classes depending upon the autonomy
+of the system and whether all or part of the information about the system can be observed at
+each state.
+
+ 
+ 
+
+\begin{tabu} to 0.8\textwidth { | X[l] | X[c] | X[r] | }
+ \hline
+  & Fully Observable & Partially Observable \\
+ \hline
+   Autonomous & Markov Chain  & Hidden Markov Model  \\
+\hline
+Controlled & Markov Decision Process  & Partially Observable Markov Decision Process \\
+\hline
+\end{tabu}
+
+
+If model is both autonomous and fully observable. It cannot be modified by actions of an agent as in the controlled processes and all information is available from the model at any point in time.
+
+If the model is fully autonomous but only partially observable then it is known as a Hidden Markov Model. In such a model there are underlying latent states and probability transitions between them but they are not directly observable. Instead these latent states influence the observations. 
+
+The HMM is more familiar in the speech recognition community and communication systems, but during the last years gained acceptance in finance as well as economics and management science.
 
 
 \chapter{About used data}
