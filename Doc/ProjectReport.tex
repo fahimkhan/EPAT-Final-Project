@@ -49,9 +49,11 @@ Controlled & Markov Decision Process  & Partially Observable Markov Decision Pro
 \end{tabu}
 
 
+
+
 If model is both autonomous and fully observable. It cannot be modified by actions of an agent as in the controlled processes and all information is available from the model at any point in time.
 
-If the model is fully autonomous but only partially observable then it is known as a Hidden Markov Model. In such a model there are underlying latent states and probability transitions between them but they are not directly observable. Instead these latent states influence the observations. 
+If the model is fully autonomous but only partially observable then it is known as a Hidden Markov Model. In such a model there are underlying latent states and probability transitions between them but they are not directly observable. Instead these latent states influence the observations.
 
 The HMM is more familiar in the speech recognition community and communication systems, but during the last years gained acceptance in finance as well as economics and management science.
 
@@ -60,10 +62,48 @@ The HMM is more familiar in the speech recognition community and communication s
 \section{Programing Language}
 The project has been implemented in Python version 2.7. Python being a open source language is most popular for data analysis as it has wide range of available packages for data analysis,machine learning and statistical analysis. It is very popular language and easy to use. 
 \section{Packages}
+The list of main packages used in this projects are as follows.
+
+\begin{enumerate}
+  \item Python (v2.7)
+  \item Pandas (0.18.1)
+  \item Numpy (1.13.1)
+  \item Matplotlib (2.0.2)
+  \item hmlearn (0.2.0)
+\end{enumerate}
+
 \section{Strategy}
+As the main focus is on detection of market regime ,so I have used moving average strategy. As in case of HMM we can only have partially observable data, it become very important choose your observable data very carefully. For Moving average strategy I have choosen the daily returns as observable variable. We can also have daily std deviation ,daily volatility as observable variables.
+
+In future work, I am going to add few more strategy with different observable variable.
+
 \section{Data}
 
+I have taken 120 days interaday data from Zerodha for the following script.
+\begin{enumerate}
+  	\item NIFTY50 Index
+  	\item HDFCBANK
+	\item ICICIBANK
+	\item KOTAKBANK
+	\item ONGC
+	\item INFY
+	\item RELIANCE
+	\item HDFC
+	\item LT
+	\item IOC
+	\item SBIN
+	\item HINDUNILVR
+	\item MARUTI
+	\item ITC
+	\item TCS
+\end{enumerate}
+It is always advisable to go for interaday data to get better result for detecting market regime using HMM.
+
+
 \chapter{Backtesting Code}
+All the backtesting code is written in \textbf{backtest.py} file. The file is divided into two class namely \textbf{FinancialData} and \textbf{BacktestBase}.
+
+
 \chapter{Strategy code without using HMM}
 \chapter{Strategy code with using HMM}
 \chapter{Findings}

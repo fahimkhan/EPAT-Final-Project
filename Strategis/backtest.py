@@ -26,9 +26,7 @@ class FinancialData(object):
 		#Reverseas data to get it in ascending order
 		self.data =  self.data.iloc[::-1]   
 
-		
-
-
+	
 	def plot_data(self, cols=['Close']):
 		self.data[cols].plot(figsize=(10, 6))
 		plt.show()

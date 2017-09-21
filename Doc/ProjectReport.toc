@@ -3,11 +3,11 @@
 \contentsline {chapter}{\numberline {3}Implementation details}{6}
 \contentsline {section}{\numberline {3.1}Programing Language}{6}
 \contentsline {section}{\numberline {3.2}Packages}{6}
-\contentsline {section}{\numberline {3.3}Strategy}{6}
-\contentsline {section}{\numberline {3.4}Data}{6}
-\contentsline {chapter}{\numberline {4}Backtesting Code}{7}
-\contentsline {chapter}{\numberline {5}Strategy code without using HMM}{8}
-\contentsline {chapter}{\numberline {6}Strategy code with using HMM}{9}
-\contentsline {chapter}{\numberline {7}Findings}{10}
-\contentsline {chapter}{\numberline {8}Future Work}{11}
-\contentsline {chapter}{\numberline {9}Reference}{12}
+\contentsline {section}{\numberline {3.3}Strategy}{7}
+\contentsline {section}{\numberline {3.4}Data}{7}
+\contentsline {chapter}{\numberline {4}Backtesting Code}{9}
+\contentsline {chapter}{\numberline {5}Strategy code without using HMM}{10}
+\contentsline {chapter}{\numberline {6}Strategy code with using HMM}{11}
+\contentsline {chapter}{\numberline {7}Findings}{12}
+\contentsline {chapter}{\numberline {8}Future Work}{13}
+\contentsline {chapter}{\numberline {9}Reference}{14}
