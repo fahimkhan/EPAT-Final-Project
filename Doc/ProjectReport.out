@@ -1,0 +1,18 @@
+\BOOKMARK [0][-]{chapter.1}{Objective}{}% 1
+\BOOKMARK [0][-]{chapter.2}{What is Hidden Markov Model?}{}% 2
+\BOOKMARK [0][-]{chapter.3}{Implementation details}{}% 3
+\BOOKMARK [1][-]{section.3.1}{Programing Language}{chapter.3}% 4
+\BOOKMARK [1][-]{section.3.2}{Packages}{chapter.3}% 5
+\BOOKMARK [1][-]{section.3.3}{Strategy}{chapter.3}% 6
+\BOOKMARK [1][-]{section.3.4}{Data}{chapter.3}% 7
+\BOOKMARK [0][-]{chapter.4}{Backtesting Code}{}% 8
+\BOOKMARK [1][-]{section.4.1}{FinancialData}{chapter.4}% 9
+\BOOKMARK [1][-]{section.4.2}{BacktestBase}{chapter.4}% 10
+\BOOKMARK [1][-]{section.4.3}{Portfolio}{chapter.4}% 11
+\BOOKMARK [0][-]{chapter.5}{Training model for HMM}{}% 12
+\BOOKMARK [0][-]{chapter.6}{Strategy code without using HMM}{}% 13
+\BOOKMARK [1][-]{section.6.1}{MovingAverageStrategy}{chapter.6}% 14
+\BOOKMARK [0][-]{chapter.7}{Strategy code with using HMM}{}% 15
+\BOOKMARK [0][-]{chapter.8}{Findings}{}% 16
+\BOOKMARK [0][-]{chapter.9}{Future Work}{}% 17
+\BOOKMARK [0][-]{chapter.10}{Reference}{}% 18

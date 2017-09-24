@@ -4,6 +4,7 @@
 \usepackage{graphicx}
 \usepackage{listings}
 \usepackage{color}
+\usepackage{hyperref}
  
 \definecolor{codegreen}{rgb}{0,0.6,0}
 \definecolor{codegray}{rgb}{0.5,0.5,0.5}
@@ -52,10 +53,8 @@
 \chapter{Objective}
 There is always challenge for quantitative trader to find out the frequent behaviour of financial market due to change in government policy,negative news item,regulatory environment and other macroeconomics effects. Such periods are known as Market Regime.
 These various regimes lead to adjustments of asset returns via shifts in their means, variances,
-autocorrelation and covariances. This impacts the effectiveness of time series methods that rely
-on stationarity.
-There is a clear need to effectively detect these regimes. This aids optimal deployment of
-quantitative trading strategies and tuning the parameters within them.\par
+autocorrelation and covariances. This impacts the effectiveness of time series methods that rely on stationarity.
+There is a clear need to effectively detect these regimes. This aids optimal deployment of quantitative trading strategies and tuning the parameters within them.\par
 
 This project is an attempt to find out such market regime and accordingly adjust the strategy. The pricipal method used to detect market regime is known as Hidden Markov Model which is a statistical time series techinique.
 
@@ -79,9 +78,6 @@ each state.
 Controlled & Markov Decision Process  & Partially Observable Markov Decision Process \\
 \hline
 \end{tabu}
-
-
-
 
 If model is both autonomous and fully observable. It cannot be modified by actions of an agent as in the controlled processes and all information is available from the model at any point in time.
 
@@ -148,7 +144,6 @@ The class has following function.
   \item \textbf{plot\_data :}
   This function plot the data on given column. By default it plot on close data.
 \end{itemize}
-
 
 
 \section{BacktestBase}
@@ -584,7 +579,35 @@ The result for moving average strategy with using HMM shown in figure \ref{fig:h
 \end{figure}
 
 
+We can see that there are bunch of security which has performed well without using HMM such as \textbf{KOTAKBANK},\textbf{HINDUNILVR} and \textbf{RELIANCE}. But our profit is not in negative. It  is just that we earned little less profit.
+
+Now if we comppare the result for security \textbf{ONGC},\textbf{INFY},\textbf{LT},\textbf{SBIN}. We can see that loss has been reduced sharply for strategy using HMM. In fact one of the security \textbf{TCS} which was in loss is giving us profit.
+
+If you see the overall picture, we can conclude that startegy with HMM may give you little less profit but it will save you from the major losses during regime change. We can use HMM with any startegy for risk management purpose.
+
+The result we are comparing is just for 120 days interaday data. We can actually use the large data set to see how HMM perform with your startegy for risk management.
+
+
 \chapter{Future Work}
+We can do lot of thing to improve the HMM model. I have listed few of them which I will try to do it in future.
+
+\begin{itemize}
+\item Running different startegy with HMM such as mean reversion,pair trading.
+\item Changing observable varibale to std deviation,volatilty etc
+\item Optimizing training and test data split by using large data set. 
+\end{itemize}
+
+
 \chapter{Reference}
+
+\begin{itemize}
+\item \url{https://en.wikipedia.org/wiki/Hidden_Markov_model}
+\item \url{https://www.quantstart.com/}
+\item \url{https://www.python.org/}
+\item \url{http://hmmlearn.readthedocs.io/en/latest/tutorial.html}
+\end{itemize}
+
+
+
 
 \end{document}
