@@ -6,8 +6,13 @@
 \contentsline {section}{\numberline {3.3}Strategy}{7}
 \contentsline {section}{\numberline {3.4}Data}{7}
 \contentsline {chapter}{\numberline {4}Backtesting Code}{9}
-\contentsline {chapter}{\numberline {5}Strategy code without using HMM}{10}
-\contentsline {chapter}{\numberline {6}Strategy code with using HMM}{11}
-\contentsline {chapter}{\numberline {7}Findings}{12}
-\contentsline {chapter}{\numberline {8}Future Work}{13}
-\contentsline {chapter}{\numberline {9}Reference}{14}
+\contentsline {section}{\numberline {4.1}FinancialData}{9}
+\contentsline {section}{\numberline {4.2}BacktestBase}{10}
+\contentsline {section}{\numberline {4.3}Portfolio}{11}
+\contentsline {chapter}{\numberline {5}Training model for HMM}{12}
+\contentsline {chapter}{\numberline {6}Strategy code without using HMM}{15}
+\contentsline {section}{\numberline {6.1}MovingAverageStrategy}{16}
+\contentsline {chapter}{\numberline {7}Strategy code with using HMM}{20}
+\contentsline {chapter}{\numberline {8}Findings}{26}
+\contentsline {chapter}{\numberline {9}Future Work}{29}
+\contentsline {chapter}{\numberline {10}Reference}{30}
