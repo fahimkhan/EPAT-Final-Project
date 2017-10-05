@@ -1,0 +1,27 @@
+#####NSE data column for stock
+Index([u'Symbol', u'Series', u'Prev Close', u'Open', u'High', u'Low', u'Last',
+       u'Close', u'VWAP', u'Volume', u'Turnover', u'Trades',
+       u'Deliverable Volume', u'%Deliverble'],
+
+
+
+#####NSE data columns for index
+Index([u'Open', u'High', u'Low', u'Close', u'Volume', u'Turnover'], dtype='object')
+
+
+###NSE data columns for Future
+Index([u'Symbol', u'Expiry', u'Open', u'High', u'Low', u'Close', u'Last',
+       u'Settle Price', u'Number of Contracts', u'Turnover', u'Open Interest',
+       u'Change in OI', u'Underlying'],
+      dtype='object')
+
+
+
+###NSE data columsn for option
+Index([u'Symbol', u'Expiry', u'Option Type', u'Strike Price', u'Open', u'High',
+       u'Low', u'Close', u'Last', u'Settle Price', u'Number of Contracts',
+       u'Turnover', u'Premium Turnover', u'Open Interest', u'Change in OI',
+       u'Underlying'],
+      dtype='object')
+
+
